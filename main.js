@@ -25,6 +25,7 @@ class Snake extends Box {
     this.score = 0;
     this.snakeBody = [];
     this.bodyLength = 2;
+    this.k = 1;
 
     // Movement
 
@@ -108,6 +109,14 @@ class Snake extends Box {
     }
   }
 
+  checkDifficulty(){
+    if(this.score > this.k*5 && this.score !== 0){
+      this.k ++;
+      this.velX = Math.abs(this.velX) + 0.5;
+      this.velY = Math.abs(this.velY) + 0.5;
+    }
+  }
+
   detectFoodCollision() {
     if (
       this.x < food.x + food.size &&
@@ -158,6 +167,7 @@ const gameLoop = () => {
   snake.drawSnake();
   snake.checkGameOver();
   snake.update();
+  snake.checkDifficulty();
   snake.detectFoodCollision();
 
   requestAnimationFrame(gameLoop);
