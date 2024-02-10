@@ -13,7 +13,6 @@ class Food {
 
   draw() {
     ctx.drawImage(this.image, this.x, this.y, this.size, this.size);
-    console.log("drawn", this.src);
   }
 }
 

@@ -117,8 +117,8 @@ class Snake {
         if (prop.name === "poisionedApple") {
           // Reduce the length of snake by 5 or kill it
           let len = 5;
-          if(this.snakeBody.length > 5) while(len--) this.snakeBody.pop();
-          if(this.snakeBody.length < 5) isAlive = false;
+          if(this.snakeBody.length > 5 && !isShield) while(len--) this.snakeBody.pop();
+          if(this.snakeBody.length < 5 && !isShield) isAlive = false;
 
           props[index2].isPresent = false;
           props[index2].x = random(100 ,width - 100);
