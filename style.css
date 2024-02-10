@@ -1,12 +1,102 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-canvas{
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
+:root {
+  --primary-bg: #0b0f1a;
+  --primary-green: #6fdb49;
+  --primary-yellow: #e3fe74;
+  --primary-red: #e7471d;
+}
+
+/* Utility classes */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.centre {
+  justify-content: center;
+  align-items: center;
+}
+
+.hide {
+  display: none;
+}
+
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.gameUi {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+}
+
+.overlay {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.mainMenu,
+.errBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  padding: 2em;
+  z-index: 9;
+  background: #0b0f1a;
+  gap: 3em;
+}
+
+.errBox {
+  border: 10px solid var(--primary-red);
+}
+
+.mainMenu {
+  border: 10px solid var(--primary-yellow);
+}
+
+.heading {
+  color: var(--primary-yellow);
+}
+
+.errHeading {
+  color: var(--primary-red);
+}
+
+.mainBtn {
+  background: var(--primary-green);
+}
+
+.errBtn{
+    background: var(--primary-red);
+}
+
+.mainBtn,
+.errBtn {
+  color: #fff;
+
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

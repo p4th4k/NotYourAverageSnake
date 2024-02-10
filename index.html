@@ -9,12 +9,35 @@
     <!-- Script imports -->
 
     <script src="./global.js" defer></script>
-    <script src="./components/Snake.js" defer></script>
     <script src="./components/Food.js" defer></script>
+    <script src="./components/Snake.js" defer></script>
     <script src="./Game.js" defer></script>
     <script src="./main.js" defer></script>
   </head>
   <body>
+    <div class="gameUi overlay" id="gameUi">
+      <div class="mainMenu flex flex-col centre" id="mainMenu">
+        <div class="heading flex flex-col centre">
+          <h1>NotYourAverageSnake</h1>
+          <p class="subtitle">by p4th4k</p>
+        </div>
+        <div class="btnRow">
+          <div class="mainBtn" id="play">
+            <p>play</p>
+          </div>
+        </div>
+      </div>
+      <div class="errBox flex flex-col centre hide" id="errBox">
+        <div class="errHeading">
+          <h1>Game Over</h1>
+        </div>
+        <div class="btnRow">
+          <div class="errBtn" id="errBtn">
+            <p>restart</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <canvas> </canvas>
   </body>
 </html>

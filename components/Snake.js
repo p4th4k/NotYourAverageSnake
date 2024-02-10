@@ -1,19 +1,23 @@
-class Box {
+// Props
+
+const poisionedApple = new PosionedApple(
+  random(100, width - 100),
+  random(100, height - 100)
+);
+const bomb = new Bomb(random(100, width - 100), random(100, height - 100));
+const shield = new Shield(random(100, width - 100), random(100, height - 100));
+
+const props = [poisionedApple, bomb, shield];
+
+class Snake {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.size = 20;
-  }
-}
-
-class Snake extends Box {
-  constructor(x, y) {
-    super(x, y);
-    this.velX = this.velY = 6.5;
     this.isX = this.isY = false;
+    this.velX = this.velY = 6.5;
     this.color = "#6fdb49";
-    this.score = 0;
     this.snakeBody = [];
+    this.propOnScreen = [];
     this.bodyLength = 2;
     this.k = 1;
 
@@ -55,7 +59,7 @@ class Snake extends Box {
   drawSnake() {
     // Draw snake head
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.size, this.size);
+    ctx.fillRect(this.x, this.y, snakeSize, snakeSize);
 
     // Draw snake body
     if (this.snakeBody.length === 0 && (this.isX || this.isY)) {
@@ -66,7 +70,44 @@ class Snake extends Box {
 
     for (const segment of this.snakeBody) {
       ctx.fillStyle = segment.color;
-      ctx.fillRect(segment.x, segment.y, this.size, this.size);
+      ctx.fillRect(segment.x, segment.y, snakeSize, snakeSize);
+    }
+  }
+
+  drawProps() {
+    for (const prop of this.propOnScreen) {
+      prop.draw();
+    }
+  }
+
+  addProp() {
+    if (this.propOnScreen.length < 2) {
+      let index = random(0, 2);
+      if (!(props[index] in this.propOnScreen)) {
+        props[index].isPresent = true;
+        this.propOnScreen.push(props[index]);
+      }
+    }
+  }
+
+  detectPropCollision() {
+    for (const prop of this.propOnScreen) {
+      if (
+        this.x < prop.x + prop.size - 16 && // Max X
+        this.x + snakeSize > prop.x + 16 && // Min X
+        this.y < prop.y + prop.size - 10 && // Max Y
+        this.y + snakeSize > prop.y + 10 // Min Y
+      ) {
+        if (prop.name === "bomb") {
+          alert("Bomb")
+        }
+        if (prop.name === "shield") {
+         alert("Shield") 
+        }
+        if (prop.name === "poisionedApple") {
+          alert("poisionedApple")
+        }
+      }
     }
   }
 
@@ -92,11 +133,11 @@ class Snake extends Box {
     // Wall collision
     if (
       this.x <= 0 ||
-      this.x + this.size >= width ||
+      this.x + snakeSize >= width ||
       this.y <= 0 ||
-      this.y + this.size >= height
+      this.y + snakeSize >= height
     ) {
-      alert("Game Over");
+      isAlive = false;
     }
 
     // Self collision
@@ -104,7 +145,7 @@ class Snake extends Box {
       if (
         this.snakeBody[i].x === this.x &&
         this.snakeBody[i].y === this.y &&
-        this.score > 1
+        score > 1
       ) {
         alert("Game Over");
         break;
@@ -114,7 +155,7 @@ class Snake extends Box {
 
   checkDifficulty() {
     // Increasing the speed by 0.5 at multiples of 5
-    if (this.score > this.k * 5 && this.score !== 0) {
+    if (score > this.k * 5 && score !== 0) {
       this.k++;
       this.velX = Math.abs(this.velX) + 0.5;
       this.velY = Math.abs(this.velY) + 0.5;
@@ -124,11 +165,11 @@ class Snake extends Box {
   detectFoodCollision() {
     if (
       this.x < food.x + food.size &&
-      food.x < this.x + this.size &&
+      food.x < this.x + snakeSize &&
       this.y < food.y + food.size &&
-      food.y < this.y + this.size
+      food.y < this.y + snakeSize
     ) {
-      this.score++; // Increment the score
+      score++; // Increment the score
 
       // Spawn new food
       food.x = random(100, width - 100);
