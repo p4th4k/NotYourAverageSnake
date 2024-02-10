@@ -1,10 +1,28 @@
 class Game {
-    handleGameUI(){
-        if(!isAlive){
-            gameUi.classList.add("overlay")
-            errBox.classList.remove("hide");
-        }
+  constructor(){
+    this.highScore;
+  }
+  handleGameUI() {
+    if (!isAlive) {
+      gameUi.classList.add("overlay");
+      errBox.classList.remove("hide");
     }
+  }
+
+  getScore() {
+    if(localStorage.length === 0) localStorage.setItem('highScore', '0');
+    this.highScore = Number(localStorage.getItem('highScore'));
+  }
+
+  updateScore(){
+    scoreP.innerText = `score: ${score}`;
+    if(this.highScore < score) highScoreP.innerText = `highscore: ${score}`
+    else highScoreP.innerText = `highscore: ${this.highScore}`
+  }
+
+  setScore(){
+    if(score > this.highScore) localStorage.setItem('highScore', String(score)) 
+  }
 
   drawBackground() {
     ctx.fillStyle = "#0b0f1a";
@@ -23,7 +41,7 @@ class Game {
     // Draw and update snake
     snake.drawSnake();
     snake.update();
-    
+
     // Check if game over or to increase difficulty
     snake.checkGameOver();
     snake.checkDifficulty();

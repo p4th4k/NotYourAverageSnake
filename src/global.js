@@ -12,6 +12,9 @@ const mainMenu = document.getElementById("mainMenu");
 const errBox = document.getElementById("errBox");
 const errBtn = document.getElementById("errBtn");
 
+const scoreP = document.getElementById("score");
+const highScoreP = document.getElementById("highScore")
+
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 // Global Game Variables

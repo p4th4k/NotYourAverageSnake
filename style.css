@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Electrolize', sans-serif;
 }
 
 :root {
@@ -9,6 +10,11 @@
   --primary-green: #6fdb49;
   --primary-yellow: #e3fe74;
   --primary-red: #e7471d;
+}
+
+@font-face {
+  font-family: 'Electrolize';
+  src: url('./font/Electrolize-Regular.ttf');
 }
 
 /* Utility classes */
@@ -41,6 +47,15 @@ canvas {
   width: 100vw;
   height: 100vh;
   position: absolute;
+}
+
+.scoreBox{
+  padding: 1em;
+  position: absolute;
+  top:0;
+  right: 0;
+  color: var(--primary-yellow);
+
 }
 
 .overlay {

@@ -4,10 +4,17 @@ game.drawBackground();
 game.setupFood();
 game.setupSnake();
 
+game.getScore();
+game.updateScore();
+
 const gameLoop = () => {
   game.handleGameUI();
+  game.updateScore();
 
-  if(!isAlive) return;
+  if(!isAlive){
+    game.setScore();
+    return;
+  }
 
   game.drawBackground();
   game.setupFood();
