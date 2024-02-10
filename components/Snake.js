@@ -58,7 +58,8 @@ class Snake {
 
   drawSnake() {
     // Draw snake head
-    ctx.fillStyle = this.color;
+    if(isShield) ctx.fillStyle = "#49d1db";
+    if(!isShield) ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, snakeSize, snakeSize);
 
     // Draw snake body
@@ -69,7 +70,8 @@ class Snake {
     }
 
     for (const segment of this.snakeBody) {
-      ctx.fillStyle = segment.color;
+      if(isShield) ctx.fillStyle = "#49d1db";
+      if(!isShield) ctx.fillStyle = segment.color;  
       ctx.fillRect(segment.x, segment.y, snakeSize, snakeSize);
     }
   }
@@ -83,7 +85,7 @@ class Snake {
   addProp() {
     if (this.propOnScreen.length < 2) {
       let index = random(0, 2);
-      if (!(props[index] in this.propOnScreen)) {
+      if (!(props[index] in this.propOnScreen) && !(props[index].isPresent)) {
         props[index].isPresent = true;
         this.propOnScreen.push(props[index]);
       }
@@ -98,14 +100,30 @@ class Snake {
         this.y < prop.y + prop.size - 10 && // Max Y
         this.y + snakeSize > prop.y + 10 // Min Y
       ) {
+        let index = this.propOnScreen.indexOf(prop);
+        let index2 = props.indexOf(prop)
         if (prop.name === "bomb") {
-          alert("Bomb")
+          isAlive = false;
         }
         if (prop.name === "shield") {
-         alert("Shield") 
+          isShield = true;
+          setTimeout(() => isShield = false, 10000);
+
+          props[index2].isPresent = false;
+          props[index2].x = random(100, width - 100);
+          props[index2].y = random(100, height - 100);
+          this.propOnScreen.splice(index, 1);
         }
         if (prop.name === "poisionedApple") {
-          alert("poisionedApple")
+          // Reduce the length of snake by 5 or kill it
+          let len = 5;
+          if(this.snakeBody.length > 5) while(len--) this.snakeBody.pop();
+          if(this.snakeBody.length < 5) isAlive = false;
+
+          props[index2].isPresent = false;
+          props[index2].x = random(100 ,width - 100);
+          props[index2].y = random(100, height - 100);
+          this.propOnScreen.splice(index, 1);
         }
       }
     }
@@ -145,7 +163,8 @@ class Snake {
       if (
         this.snakeBody[i].x === this.x &&
         this.snakeBody[i].y === this.y &&
-        score > 1
+        score > 1 &&
+        !isShield
       ) {
         alert("Game Over");
         break;
