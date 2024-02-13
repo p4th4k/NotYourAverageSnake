@@ -41,6 +41,10 @@ canvas {
   z-index: 1;
 }
 
+.subtitle{
+  color: var(--primary-yellow);
+}
+
 .gameUi {
   width: 100vw;
   height: 100vh;
@@ -65,7 +69,8 @@ canvas {
 }
 
 .mainMenu,
-.errBox {
+.errBox,
+.rulesBox {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -75,6 +80,10 @@ canvas {
   z-index: 9;
   background: #0b0f1a;
   gap: 3em;
+}
+
+.rulesBox{
+  color: var(--primary-green);
 }
 
 .errBox {
@@ -102,9 +111,9 @@ canvas {
 }
 
 .mainBtn,
-.errBtn {
+.errBtn,
+.btn {
   color: #fff;
-
   width: 120px;
   height: 40px;
   border-radius: 5px;
@@ -112,4 +121,8 @@ canvas {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.btn{
+  background: var(--primary-green);
 }

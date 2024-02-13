@@ -31,6 +31,8 @@ const gameUi = document.getElementById("gameUi");
 const mainMenu = document.getElementById("mainMenu");
 const errBox = document.getElementById("errBox");
 const errBtn = document.getElementById("errBtn");
+const rulesBox = document.getElementById("rulesBox");
+const rulesBtn = document.getElementById("btn");
 
 const scoreP = document.getElementById("score");
 const highScoreP = document.getElementById("highScore");

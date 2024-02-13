@@ -27,8 +27,13 @@ const gameLoop = () => {
 };
 
 playBtn.addEventListener("click", () => {
-  gameUi.classList.remove("overlay");
   mainMenu.classList.add("hide");
+  rulesBox.classList.remove("hide");
+})
+
+rulesBtn.addEventListener("click", () => {
+  gameUi.classList.remove("overlay");
+  rulesBox.classList.add("hide");
   audio.playBgm();
   snake.isGameStarted = true;
   gameLoop();
