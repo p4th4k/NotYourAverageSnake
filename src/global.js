@@ -1,8 +1,28 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-const width = (canvas.width = window.innerWidth);
-const height = (canvas.height = window.innerHeight);
+function getWidth() {
+  return Math.max(
+    document.body.scrollWidth,
+    document.documentElement.scrollWidth,
+    document.body.offsetWidth,
+    document.documentElement.offsetWidth,
+    document.documentElement.clientWidth
+  );
+}
+
+function getHeight() {
+  return Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.offsetHeight,
+    document.documentElement.clientHeight
+  );
+}
+
+const width = (canvas.width = getWidth());
+const height = (canvas.height = getHeight());
 
 // UI
 
@@ -13,7 +33,7 @@ const errBox = document.getElementById("errBox");
 const errBtn = document.getElementById("errBtn");
 
 const scoreP = document.getElementById("score");
-const highScoreP = document.getElementById("highScore")
+const highScoreP = document.getElementById("highScore");
 
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 

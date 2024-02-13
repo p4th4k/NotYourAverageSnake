@@ -30,6 +30,7 @@ playBtn.addEventListener("click", () => {
   gameUi.classList.remove("overlay");
   mainMenu.classList.add("hide");
   audio.playBgm();
+  snake.isGameStarted = true;
   gameLoop();
 })
 

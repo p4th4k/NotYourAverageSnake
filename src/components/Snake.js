@@ -15,6 +15,7 @@ class Snake {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.isGameStarted = false;
     this.isX = this.isY = false;
     this.velX = this.velY = 6.5;
     this.color = "#6fdb49";
@@ -56,6 +57,31 @@ class Snake {
           }
       }
     });
+
+    window.addEventListener("touchstart", (e) => {
+      let x = e.touches[0].clientX;
+      let y = e.touches[0].clientY;
+
+      if (this.isY) {
+        this.isX = true;
+        this.isY = false;
+
+        if (x > this.x) this.velX = Math.abs(this.velX);
+        if (x < this.x) this.velX = -Math.abs(this.velX);
+      } else if (this.isX) {
+        this.isX = false;
+        this.isY = true;
+
+        if (y > this.y) this.velY = Math.abs(this.velY);
+        if (y < this.y) this.velY = -Math.abs(this.velY);
+      } else if (!this.isX && !this.isY && this.isGameStarted) {
+        let dx = x - this.x;
+        let dy = y - this.y;
+
+        if (dx > dy) this.isX = true;
+        else if (dx < dy) this.isY = true;
+      }
+    });
   }
 
   drawSnake() {
@@ -94,7 +120,7 @@ class Snake {
     }
   }
 
-  deleteProp(index1, index2){
+  deleteProp(index1, index2) {
     props[index2].isPresent = false;
     props[index2].x = random(100, width - 100);
     props[index2].y = random(100, height - 100);
@@ -112,8 +138,8 @@ class Snake {
         let index1 = this.propOnScreen.indexOf(prop);
         let index2 = props.indexOf(prop);
         if (prop.name === "bomb") {
-          if (isShield) this.deleteProp(index1, index2)
-          if(!isShield) isAlive = false;
+          if (isShield) this.deleteProp(index1, index2);
+          if (!isShield) isAlive = false;
         }
         if (prop.name === "shield") {
           gaudio.playShield();
@@ -122,18 +148,19 @@ class Snake {
 
           this.deleteProp(index1, index2);
         }
-        if (prop.name === "poisionedApple" && !isShield) {
+        if (prop.name === "poisionedApple") {
           // Reduce the length of snake by 5 or kill it
-          gaudio.playPosionedFood();
           let len = 5;
-          if(!isShield){
-            if (this.snakeBody.length > 5){ 
+          if (!isShield) {
+            if (this.snakeBody.length > 5) {
               while (len--) this.snakeBody.pop();
+              score -= 2;
               this.deleteProp(index1, index2);
             }
-            if (this.snakeBody.length < 5) isAlive = false;
+            if (this.snakeBody.length <= 5) isAlive = false;
           }
-          if(isShield) this.deleteProp(index1, index2);
+          if (isShield) this.deleteProp(index1, index2);
+          gaudio.playPosionedFood();
         }
       }
     }
