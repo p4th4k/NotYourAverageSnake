@@ -5,7 +5,7 @@
 
 NotYourAverageSnake is an enhanced and modern twist on the classic snake game. While preserving the nostalgic charm of the original, it introduces exciting features like bombs, shields, and poisoned apples.
 
-Live Demo: 
+Live Demo: ![NotYourAverageSnake](https://p4th4k.github.io/NotYourAverageSnake/frontend/index.html)
 
 # Table of Contents
 1. [Techstack](#techstack)
