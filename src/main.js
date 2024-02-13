@@ -1,4 +1,5 @@
 const game = new Game();
+const audio = new GameAudio();
 
 game.drawBackground();
 game.setupFood();
@@ -13,6 +14,8 @@ const gameLoop = () => {
 
   if(!isAlive){
     game.setScore();
+    audio.bgm.pause();
+    audio.playGameOver();
     return;
   }
 
@@ -26,6 +29,7 @@ const gameLoop = () => {
 playBtn.addEventListener("click", () => {
   gameUi.classList.remove("overlay");
   mainMenu.classList.add("hide");
+  audio.playBgm();
   gameLoop();
 })
 

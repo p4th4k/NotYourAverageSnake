@@ -7,6 +7,8 @@ const poisionedApple = new PosionedApple(
 const bomb = new Bomb(random(100, width - 100), random(100, height - 100));
 const shield = new Shield(random(100, width - 100), random(100, height - 100));
 
+const gaudio = new GameAudio();
+
 const props = [poisionedApple, bomb, shield];
 
 class Snake {
@@ -58,8 +60,8 @@ class Snake {
 
   drawSnake() {
     // Draw snake head
-    if(isShield) ctx.fillStyle = "#49d1db";
-    if(!isShield) ctx.fillStyle = this.color;
+    if (isShield) ctx.fillStyle = "#49d1db";
+    if (!isShield) ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, snakeSize, snakeSize);
 
     // Draw snake body
@@ -70,8 +72,8 @@ class Snake {
     }
 
     for (const segment of this.snakeBody) {
-      if(isShield) ctx.fillStyle = "#49d1db";
-      if(!isShield) ctx.fillStyle = segment.color;  
+      if (isShield) ctx.fillStyle = "#49d1db";
+      if (!isShield) ctx.fillStyle = segment.color;
       ctx.fillRect(segment.x, segment.y, snakeSize, snakeSize);
     }
   }
@@ -85,11 +87,18 @@ class Snake {
   addProp() {
     if (this.propOnScreen.length < 2) {
       let index = random(0, 2);
-      if (!(props[index] in this.propOnScreen) && !(props[index].isPresent)) {
+      if (!(props[index] in this.propOnScreen) && !props[index].isPresent) {
         props[index].isPresent = true;
         this.propOnScreen.push(props[index]);
       }
     }
+  }
+
+  deleteProp(index1, index2){
+    props[index2].isPresent = false;
+    props[index2].x = random(100, width - 100);
+    props[index2].y = random(100, height - 100);
+    this.propOnScreen.splice(index1, 1);
   }
 
   detectPropCollision() {
@@ -100,30 +109,31 @@ class Snake {
         this.y < prop.y + prop.size - 10 && // Max Y
         this.y + snakeSize > prop.y + 10 // Min Y
       ) {
-        let index = this.propOnScreen.indexOf(prop);
-        let index2 = props.indexOf(prop)
+        let index1 = this.propOnScreen.indexOf(prop);
+        let index2 = props.indexOf(prop);
         if (prop.name === "bomb") {
-          isAlive = false;
+          if (isShield) this.deleteProp(index1, index2)
+          if(!isShield) isAlive = false;
         }
         if (prop.name === "shield") {
+          gaudio.playShield();
           isShield = true;
-          setTimeout(() => isShield = false, 10000);
+          setTimeout(() => (isShield = false), 10000);
 
-          props[index2].isPresent = false;
-          props[index2].x = random(100, width - 100);
-          props[index2].y = random(100, height - 100);
-          this.propOnScreen.splice(index, 1);
+          this.deleteProp(index1, index2);
         }
         if (prop.name === "poisionedApple" && !isShield) {
           // Reduce the length of snake by 5 or kill it
+          gaudio.playPosionedFood();
           let len = 5;
-          if(this.snakeBody.length > 5) while(len--) this.snakeBody.pop();
-          if(this.snakeBody.length < 5) isAlive = false;
-
-          props[index2].isPresent = false;
-          props[index2].x = random(100 ,width - 100);
-          props[index2].y = random(100, height - 100);
-          this.propOnScreen.splice(index, 1);
+          if(!isShield){
+            if (this.snakeBody.length > 5){ 
+              while (len--) this.snakeBody.pop();
+              this.deleteProp(index1, index2);
+            }
+            if (this.snakeBody.length < 5) isAlive = false;
+          }
+          if(isShield) this.deleteProp(index1, index2);
         }
       }
     }
@@ -189,6 +199,7 @@ class Snake {
       food.y < this.y + snakeSize
     ) {
       score++; // Increment the score
+      gaudio.playEatFood();
 
       // Spawn new food
       food.x = random(100, width - 100);
